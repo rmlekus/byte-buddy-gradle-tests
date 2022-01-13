@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        maven {
+            url 'http://localhost:8081/repository/localByteBuddy/'; 
+        }
+        gradlePluginPortal()
+    }
+}
+
+include('multi-source-set-test')
+include('redirect-output-test')

@@ -1,0 +1,41 @@
+buildscript {
+  repositories {
+    maven {
+       url 'http://localhost:8081/repository/localByteBuddy/'
+    }
+  }
+  dependencies {
+    classpath "net.bytebuddy:byte-buddy-gradle-plugin:$bytebuddyVersion"
+  }
+}
+
+plugins {
+    id 'java-library'
+}
+
+repositories {
+	maven {
+           url 'http://localhost:8081/repository/localByteBuddy/'
+    }
+   	mavenCentral()
+}
+
+apply plugin: "net.bytebuddy.byte-buddy-gradle-plugin"
+
+dependencies {
+    implementation  "net.bytebuddy:byte-buddy-dep:$bytebuddyVersion"
+}
+
+apply plugin: net.bytebuddy.build.gradle.ByteBuddyPlugin
+
+byteBuddy {
+    transformation {
+        plugin = net.bytebuddy.build.ToStringPlugin.class
+    }
+}
+
+testByteBuddy {
+    transformation {
+        plugin = net.bytebuddy.build.ToStringPlugin.class
+    }
+}

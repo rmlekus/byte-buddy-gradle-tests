@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'net.bytebuddy.byte-buddy-gradle-plugin' version "$bytebuddyVersion"
+}
+
+dependencies {
+    implementation  "net.bytebuddy:byte-buddy-dep:$bytebuddyVersion"
+
+}
+
+apply plugin: net.bytebuddy.build.gradle.ByteBuddyPlugin
+
+byteBuddy {
+    transformation {
+        plugin = net.bytebuddy.build.ToStringPlugin.class
+        incrementalClassPath = true
+    }
+}
+
+testByteBuddy {
+    transformation {
+        plugin = net.bytebuddy.build.ToStringPlugin.class
+        incrementalClassPath = true
+    }
+}

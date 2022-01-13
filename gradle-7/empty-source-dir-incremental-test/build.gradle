@@ -1,0 +1,27 @@
+plugins {
+    id 'java-library'
+    id 'net.bytebuddy.byte-buddy-gradle-plugin' version "$bytebuddyVersion"
+}
+
+dependencies {
+    implementation  "net.bytebuddy:byte-buddy-dep:$bytebuddyVersion"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+
+// if (compileJava.source.files.size()>0) {
+	apply plugin: net.bytebuddy.build.gradle.ByteBuddyPlugin
+
+	byteBuddy {
+    	transformation {
+        	plugin = net.bytebuddy.build.ToStringPlugin.class
+    	}
+	}
+// }
+
+test {
+    useJUnitPlatform()
+    systemProperty "expectedVariants", System.getProperty("expectedVariants","")
+}

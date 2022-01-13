@@ -1,0 +1,43 @@
+buildscript {
+  repositories {
+    maven {
+       url 'http://localhost:8081/repository/localByteBuddy/'
+    }
+  }
+  dependencies {
+    classpath "net.bytebuddy:byte-buddy-gradle-plugin:$bytebuddyVersion"
+  }
+}
+
+plugins {
+    id 'java-library'
+}
+
+repositories {
+	maven {
+           url 'http://localhost:8081/repository/localByteBuddy/'
+    }
+   	mavenCentral()
+}
+
+apply plugin: "net.bytebuddy.byte-buddy-gradle-plugin"
+
+dependencies {
+    implementation  "net.bytebuddy:byte-buddy-dep:$bytebuddyVersion"
+}
+
+apply plugin: net.bytebuddy.build.gradle.ByteBuddyPlugin
+
+sourceSets {
+  main {
+    // Compiled Java classes should use this directory (in combination with `byteBuddy` this 
+    // directory will hold the classes modified by ByteBuddy)
+    java.setOutputDir(file("$rootDir/classes/redirect-output-testprj-1"))
+  }
+}
+byteBuddy {
+    transformation {
+        plugin = net.bytebuddy.build.ToStringPlugin.class
+        rawClassesDirectory = file("$buildDir/classes/main-raw")
+    }
+}

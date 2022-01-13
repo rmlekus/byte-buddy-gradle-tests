@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'net.bytebuddy.byte-buddy-gradle-plugin' version "$bytebuddyVersion"
+}
+
+dependencies {
+    implementation  "net.bytebuddy:byte-buddy-dep:$bytebuddyVersion"
+}
+
+apply plugin: net.bytebuddy.build.gradle.ByteBuddyPlugin
+
+sourceSets {
+  main {
+    // Compiled Java classes should use this directory (in combination with `byteBuddy` this 
+    // directory will hold the classes modified by ByteBuddy)
+    java.destinationDirectory.set(file("$rootDir/classes/redirect-output-testprj-1"))
+  }
+}
+byteBuddy {
+    transformation {
+        plugin = net.bytebuddy.build.ToStringPlugin.class
+        incrementalClassPath = true
+        rawClassesDirectory = file("$buildDir/classes/main-raw")
+    }
+}
