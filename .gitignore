@@ -18,3 +18,6 @@ bin
 
 # Apple Specific Custom Attributes
 .DS_Store
+
+# any log files
+*.log
